@@ -2,15 +2,22 @@ import imaplib
 import email
 from email.header import decode_header
 
-mail_pass = "Nsytghjqltim"
-username = "department-it-lkmb-rt@lkmb-rt.ru"
-imap_server = "imap.yandex.ru"
+
+mail_pass = "h883F5EPDuj6Tbs70dX3"
+username = "it.department.lkmb-rt@mail.ru"
+imap_server = "imap.mail.ru"
+
+
 imap = imaplib.IMAP4_SSL(imap_server)
-imap.login(username, mail_pass)
+try:
+    imap.login(username, mail_pass)
+except imaplib.IMAP4.error as e:
+    print("Ошибка при входе:", e)
+
 imap.select("INBOX")
 # print(imap.select("INBOX"))
 
-res, msg = imap.fetch(b'32742', '(RFC822)') ## b'32739 - номер сообщения, самые первые сообщения с конца
+res, msg = imap.fetch(b'1', '(RFC822)') ## b'32739 - номер сообщения, самые первые сообщения с конца
 msg = email.message_from_bytes(msg[0][1])
 # print(msg)
 letter_date = email.utils.parsedate_tz(msg["Date"]) # дата получения, приходит в виде строки, дальше надо её парсить в формат datetime
@@ -28,7 +35,7 @@ try:
     print(subject)
 except:
     print("ошибка декодирования заголовка")
-    response = imap.fetch(b'32737', "(BODY[HEADER.FIELDS (Subject)])")
+    response = imap.fetch(b'0', "(BODY[HEADER.FIELDS (Subject)])")
     subject = response[1][0][1].decode('utf-8')
     decoded_subject = email.header.make_header(email.header.decode_header(subject))
     print(decoded_subject)
