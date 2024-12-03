@@ -59,5 +59,12 @@ print(body)
 
 imap.logout()
 
+# posgtresql 
+# password = "sda"
+# port = 5432
+# user = "postgres" no name
+# host = "localhost" no name
+# dbname = "postgres" no name
+
         
 
